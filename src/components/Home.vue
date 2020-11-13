@@ -129,6 +129,7 @@ export default {
 
 <style scoped>
 
+
 #home {
     background-color:rgb(240, 240, 240);
     font-family: Helvetica, Arial, sans-serif;
