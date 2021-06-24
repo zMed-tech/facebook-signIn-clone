@@ -13,17 +13,28 @@
                  Se connecter à Facebook    
              </p>
 
-             <div class="information" ref="emailBorder">
-                 <input type="text" placeholder="Adresse e-mail ou numéro de tél" id="email" v-model="email" >
+             <div class="information" ref="emailBorder" @click="getFocusEmail">
+                
+                    <input type="text" placeholder="Adresse e-mail ou numéro de tél" id="email" v-model="email" ref="email" autofocus="1">
+                <div class="warimage" v-show="warEmail">
+                     <img   class="_9ay6 imgt" src="https://static.xx.fbcdn.net/rsrc.php/v3/yX/r/dmNX8PhIKEh.png" alt="" width="20" height="20">
+                </div>
+                 
+                
              </div>
 
              <p class="errMsg" v-show="errAdrs">
                 L’e-mail ou le numéro de téléphone entré ne correspond à aucun compte. 
                 <a href="https://facebook.com">Veuillez créer un compte.</a>
+                
              </p>
 
-             <div class="information" ref="passwordBorder">
-                 <input type="password" placeholder="Mot de passe" id="password" v-model="password">
+             <div class="information" ref="passwordBorder" @click="getFocusPassword">
+                 <input type="password" placeholder="Mot de passe" id="password" v-model="password" ref="password" autofocus="1">
+
+                  <div class= "warimage" v-show="warPassword">
+                     <img  class="_9ay6 imgt" src="https://static.xx.fbcdn.net/rsrc.php/v3/yX/r/dmNX8PhIKEh.png" alt="" width="20" height="20">
+                </div>
              </div>
 
              <p class="errMsg" v-show="errPass">
@@ -41,6 +52,9 @@
 
       </div>
 
+     <br>
+     
+
   </div>
 </template>
 
@@ -55,12 +69,25 @@ export default {
             errMsg: '',
             errAdrs: false,
             errPass: false,
+            warEmail: false,
+            warPassword: false,
             
 
         }
     },
 
     methods: {
+
+        getFocusEmail() {
+           this.$refs.email.focus();
+           
+        },
+
+        getFocusPassword() {
+            this.$refs['password'].focus();
+        },
+
+
         login(){
             let reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -68,32 +95,42 @@ export default {
 
                 this.errAdrs = true;
                 this.$refs['emailBorder'].style.borderColor = 'red';
+                this.warEmail = true;
+
                 this.errPass = false;   
                 this.$refs['passwordBorder'].style.borderColor = 'rgb(218, 209, 209)';
+                this.warPassword = false;
 
             } else if (/^[0-9+]+$/.test(this.email) == false && reg.test(this.email) == false) {
 
                 this.errAdrs = true;
                  this.$refs['emailBorder'].style.borderColor = 'red';
+                 this.warEmail = true;
+
                 this.errPass = false;
                  this.$refs['passwordBorder'].style.borderColor = 'rgb(218, 209, 209)';
+                 this.warPassword = false;
 
             } else if (this.password == "") {
 
                 this.errPass = true;
                  this.$refs['passwordBorder'].style.borderColor = 'red';
+                 this.warPassword = true;
 
 
                 this.errAdrs = false;
-
                  this.$refs['emailBorder'].style.borderColor = 'rgb(218, 209, 209)';
+                 this.warEmail = false;
 
             } else {
 
                 this.errAdrs = false;
                 this.$refs['emailBorder'].style.borderColor = 'rgb(218, 209, 209)';
+                this.warEmail = false;
+
                 this.errPass = false;
                 this.$refs['passwordBorder'].style.borderColor = 'rgb(218, 209, 209)';
+                this.warPassword = false;
                
 
 
@@ -131,7 +168,7 @@ export default {
 
 
 #home {
-    background-color:rgb(240, 240, 240);
+   
     font-family: Helvetica, Arial, sans-serif;
     text-align: center;
    
@@ -151,10 +188,11 @@ export default {
     background-color: white;
     border: 1px solid rgb(240, 240, 240);
     border-radius: 7px;
-   box-shadow: 1px 1px 20px rgb(204, 201, 201); 
+    box-shadow: 1px 1px 20px rgb(204, 201, 201); 
     display: inline-block;
     margin-bottom: 20%;
     padding: 3%;
+    
    
 }
 
@@ -163,7 +201,8 @@ export default {
     border-radius: 5px;
     margin-bottom: 4%;
     text-align: start;
-    padding: 5px;
+    
+    cursor: text;
    
 }
 
@@ -174,7 +213,7 @@ button {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    width: 300px;
+    
     padding: 10px;
     outline: none;
     border-radius: 5px ;
@@ -192,16 +231,18 @@ a:hover{
 }
 
 .errMsg {
-    color:red;
-    font-size: 14px;
-   
+    color:#f02849;
+    font-size: 13px;
     width: 350px;
+    text-align: left;
+    
 }
 
 .errMsg a {
     color: red;
     font-weight: bold;
     text-decoration: none;
+    
 }
 
 .errMsg a:hover {
@@ -214,8 +255,19 @@ input {
     outline: none;
     border: none;
     font-size: 18px;
-    padding: 10px;
-    width: 325px;
+     padding: 13px;
+    width: 322px;
+}
+
+.warimage {
+   position: relative;
+}
+
+.imgt {
+    position: absolute;
+    right: 16px;
+    bottom: 14px;
+   
 }
 
 #title {
