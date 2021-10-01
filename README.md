@@ -1,4 +1,4 @@
-# fb-hack
+# facebook-signIn-clone
 
 ## Project setup
 ```
